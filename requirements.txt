@@ -3,4 +3,4 @@ flask-cors==3.0.10
 torch
 transformers
 requests
-ollama==0.5.7
+ollama
