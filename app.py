@@ -4,13 +4,16 @@ import ollama
 import logging
 
 app = Flask(__name__)
-CORS(app, origins=["https://aiapp-frontend.onrender.com"])  # Enable CORS
+CORS(app, resources={r"/*": {"origins": "https://aiapp-frontend.onrender.com"}}, supports_credentials=True) # Enable CORS
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'CORS ok'}), 200
+
     data = request.get_json()  # Get input data from the frontend
     if not data or 'input' not in data:
         logging.error('No input data provided')
