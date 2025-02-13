@@ -34,7 +34,9 @@ def predict():
         logging.debug(f"Input data: {data['input']}")
         response = ollama.chat(
             model='deepseek-r1:1.5b', 
-            messages=[{'role': 'user', 'content': data['input']}])
+            messages=[{'role': 'user', 'content': data['input']}],
+            host='http://127.0.0.1:11434'
+            )
         logging.debug(f"Response type: {type(response)}")  # Print the type of the response
         logging.debug(f"Response dir: {dir(response)}")  # Print the attributes of the response
         logging.debug(f"Response: {response}")  # Print the response to debug
