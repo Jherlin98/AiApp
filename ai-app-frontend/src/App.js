@@ -37,8 +37,13 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ input }),
+        credentials: 'include',
       });
+      if (!response.ok) {
+        throw new Error('Failed to get response from server');
+      }
       const data = await response.json();
+      console.log("Response from backend:", data);
       const cleanedPrediction = data.prediction.replace(/<think>|<\/think>/g, ''); // Remove <think> tags
       const aiMessage = { type: 'ai', content: cleanedPrediction };
       setMessages((prevMessages) => [...prevMessages, aiMessage]);

@@ -4,10 +4,20 @@ import ollama
 import logging
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True) # Enable CORS
+CORS(app, resources={r"/*": {"origins": "https://aiapp-frontend.onrender.com"}})
+
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers["Access-Control-Allow-Origin"] = "https://aiapp-frontend.onrender.com"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    return response
+
 
 @app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
