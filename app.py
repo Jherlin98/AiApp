@@ -34,8 +34,7 @@ def predict():
         logging.debug(f"Input data: {data['input']}")
         response = ollama.chat(
             model='deepseek-r1:1.5b', 
-            messages=[{'role': 'user', 'content': data['input']}],
-            host='http://127.0.0.1:11434'
+            messages=[{'role': 'user', 'content': data['input']}]
             )
         logging.debug(f"Response type: {type(response)}")  # Print the type of the response
         logging.debug(f"Response dir: {dir(response)}")  # Print the attributes of the response
@@ -58,4 +57,4 @@ def predict():
     return jsonify({'prediction': prediction})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
