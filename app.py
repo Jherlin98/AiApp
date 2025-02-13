@@ -4,7 +4,7 @@ import ollama
 import logging
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS
+CORS(app, origins=["https://aiapp-frontend.onrender.com"])  # Enable CORS
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
