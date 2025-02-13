@@ -5,4 +5,4 @@ transformers
 requests
 ollama
 gunicorn
-werkzeug
+werkzeug==2.0.3
