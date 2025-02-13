@@ -7,7 +7,9 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [isThinking, setIsThinking] = useState(false);
   const [thinkingText, setThinkingText] = useState('Thinking');
-
+  
+  const API_URL ='https://aiapp-h509.onrender.com';
+  console.log("API URL:", process.env.REACT_APP_API_URL, "other url:", API_URL);
   useEffect(() => {
     let interval;
     if (isThinking) {
@@ -31,7 +33,7 @@ function App() {
     setIsThinking(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/predict`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/predict`, {  // ✅ Correct
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
