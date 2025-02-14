@@ -1,26 +1,25 @@
-# Use an official Python image as a base image
+# Use an official Python image as a base
 FROM python:3.8-slim
 
-# Set the working directory in the container
+# Install required dependencies
+RUN apt-get update && apt-get install -y curl
+
+# Install Ollama
+RUN curl -fsSL https://ollama.com/install.sh | sh
+
+# Set working directory
 WORKDIR /app
 
-# Copy the requirements.txt to the container
+# Copy requirements and install dependencies
 COPY requirements.txt /app/
-
-# Install the dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Ollama (add this step to install Ollama)
-RUN curl -sSL https://ollama.com/download/ollama-linux-64.tar.gz -o ollama.tar.gz \
-    && tar -xvf ollama.tar.gz \
-    && chmod +x ./ollama \
-    && mv ollama /usr/local/bin/
-
-# Copy the current directory contents into the container
+# Copy the rest of the app
 COPY . /app/
 
-# Expose the port where your app will run
-EXPOSE 8080
-EXPOSE 11434 
-# Start Ollama and Flask app together (using a background process for Ollama)
-CMD ./ollama server --port 11434 & python app.py
+# Expose ports
+EXPOSE 5000
+EXPOSE 11434
+
+# Start Ollama, pull the model, and then start the Flask app
+CMD ollama serve & sleep 5 && ollama pull deepseek-r1:1.5b && python app.py
